@@ -27,7 +27,7 @@ class LanguagePack::Nginx < LanguagePack::Base
 
   def default_process_types
     {
-      "web" => 'sed -i "s/\$port/${PORT}/" nginx.conf && nginx -c nginx.conf;'
+      "web" => 'sed -i "s/\$port/${PORT}/" `pwd`/nginx.conf && nginx -c `pwd`/nginx.conf;'
     }
   end
 
