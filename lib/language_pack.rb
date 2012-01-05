@@ -1,5 +1,7 @@
 require "pathname"
 
+require 'language_pack/nginx'
+
 # General Language Pack module
 module LanguagePack
 
@@ -8,13 +10,7 @@ module LanguagePack
   # @return [LanguagePack] the {LanguagePack} detected
   def self.detect(*args)
     Dir.chdir(args.first)
-
-    pack = [ Nginx ].detect do |klass|
-      klass.use?
-    end
-
-    pack ? pack.new(*args) : nil
+    Nginx.use? ? Nginx.new(*args) : nil
   end
 end
 
-require 'language_pack/nginx'
