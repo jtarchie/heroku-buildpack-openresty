@@ -27,7 +27,7 @@ class LanguagePack::Nginx < LanguagePack::Base
 
   def default_process_types
     {
-      "web" => 'sed "s/\$port/${PORT}/" `pwd`/nginx.conf > .port_nginx.conf && nginx -c `pwd`/.port_nginx.conf;'
+      "web" => 'sed "s/\$port/${PORT}/" `pwd`/nginx.conf > .port_nginx.conf; nginx -c `pwd`/.port_nginx.conf -g "daemon off;"
     }
   end
 
