@@ -7,7 +7,9 @@ class LanguagePack::Nginx < LanguagePack::Base
   OPENRESTY_STABLE_VERSION = "1.0.10.24"
 
   def self.use?
-    File.exist?("nginx.conf")
+    detect_file = File.exist?("nginx.conf")
+    topic "detecting nginx.conf - #{detect_file}"
+    detect_file
   end
   
   def name
