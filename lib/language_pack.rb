@@ -1,7 +1,5 @@
 require "pathname"
 
-require 'language_pack/nginx'
-
 # General Language Pack module
 module LanguagePack
 
@@ -14,3 +12,4 @@ module LanguagePack
   end
 end
 
+require 'language_pack/nginx'
