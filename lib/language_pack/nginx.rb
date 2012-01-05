@@ -27,7 +27,7 @@ class LanguagePack::Nginx < LanguagePack::Base
 
   def default_process_types
     {
-      "web" => "nginx -c nginx.conf -g \"$port_number = ${PORT}\""
+      "web" => "nginx -c nginx.conf -g \"$port = ${PORT}\";"
     }
   end
 
