@@ -1,4 +1,5 @@
 require "pathname"
+require 'fileutils'
 
 # General Language Pack module
 module LanguagePack
