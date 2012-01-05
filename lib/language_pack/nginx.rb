@@ -36,7 +36,7 @@ class LanguagePack::Nginx < LanguagePack::Base
     Dir.chdir(build_path)
     run("curl #{VENDOR_URL}/openresty_nginx-#{OPENRESTY_STABLE_VERSION}.tar.gz -s -o - | tar zxf -")
     Dir["nginx/nginx/sbin/*"].each {|path| run("chmod +x #{path}") }
-    File.mkdir_p "logs"
+    FileUtils.mkdir_p "logs"
   end
 
   private 
