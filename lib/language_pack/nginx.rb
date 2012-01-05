@@ -41,6 +41,6 @@ class LanguagePack::Nginx < LanguagePack::Base
 
   private 
   def default_path
-    "bin:/bin:/usr/local/bin:/usr/bin:/bin:/app/nginx/nginx/sbin"
+    "bin:/bin:/usr/local/bin:/usr/bin:/bin:/app/openresty/nginx/nginx/sbin"
   end
 end
