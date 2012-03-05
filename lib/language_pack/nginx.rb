@@ -47,7 +47,7 @@ end
 File.open(".env_nginx.conf","w") do |file|
   file.puts << conf_file
 end
-`nginx -c \`pwd\`/.env_nginx.conf -g "daemon off;"`
+`nginx -c \\`pwd\\`/.env_nginx.conf -g "daemon off;"`
       APPLICATION
     end
   end
