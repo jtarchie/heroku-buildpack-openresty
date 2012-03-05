@@ -41,7 +41,7 @@ class LanguagePack::Nginx < LanguagePack::Base
 #!/usr/bin/env ruby
 
 conf_file = File.read("nginx.conf")
-conf_file.gsub!(/$ENV_(\w+)/) do
+conf_file.gsub!(/\\$ENV_(\\w+)/) do
   ENV[$1]
 end
 File.open(".env_nginx.conf","w") do |file|
