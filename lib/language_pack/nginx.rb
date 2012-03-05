@@ -41,11 +41,11 @@ class LanguagePack::Nginx < LanguagePack::Base
 #!/usr/bin/env ruby
 
 conf_file = File.read("nginx.conf")
-conf_file.gsub(/$ENV_(\w+)/) do
+conf_file.gsub!(/$ENV_(\w+)/) do
   ENV[$1]
 end
 File.open(".env_nginx.conf","w") do |file|
-  file.puts << conf_file
+  file.puts conf_file
 end
 `nginx -c \\`pwd\\`/.env_nginx.conf -g "daemon off;"`
       APPLICATION
