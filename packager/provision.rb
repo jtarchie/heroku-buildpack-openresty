@@ -1,5 +1,9 @@
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
+
+require "language_pack"
+
 class Provision < Vagrant::Provisioners::Base
-  OPENRESTY_STABLE_VERSION = "1.0.10.48"
+  OPENRESTY_STABLE_VERSION = LanguagePack::Nginx::OPENRESTY_STABLE_VERSION
 
   def provision!
     vm.ssh.execute do |ssh|
