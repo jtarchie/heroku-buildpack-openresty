@@ -1,11 +1,10 @@
-Heroku buildpack: OpenResty Nginx
-======================
+# Heroku buildpack: OpenResty Nginx
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for OpenResty application. It will allow the deployment of Nginx Conf files that utilize the extensions that compromise the [OpenResty](http://openresty.org) bundle.
 
-Usage
------
-Your application is meant to have a nginx.conf file in the root of the application. The buildpack looks for this file to know that it should deploy to Herkou with the OpenResty environment.
+## Usage
+
+Your application is must have a `nginx.conf` file in the root of the application. The buildpack looks for this file to know that it should deploy to Herkou with the OpenResty environment.
 
     $ ls
     nginx.conf
@@ -38,7 +37,41 @@ Your application is meant to have a nginx.conf file in the root of the applicati
 
     $ heroku open
 
-Example
--------
+## Example
 
 Please see the example [here](https://github.com/jtarchie/openresty-example).
+
+## Nginx compilation
+
+It is actually required to build nginx ahead of time for the Heroku environment. These images are built on a VM image that represents the Heroku run time environment.
+
+I am manually updating the version of OpenResty with the build scripts found in `packager/` directory. It requires to have the vagrant gem install and its dependencies.
+
+    $ cd packager
+    $ ./build.sh
+
+This will take a while to run, but the end result will be a tar file in the `build/` directory.
+
+## Environment variables
+
+Right now Nginx and OpenResty doen't support environment variables in the config file. Heroku uses them extensively to set Database, Memcache, and other add-on credentials.
+
+On runtime of the `web` dyno, the `nginx.conf` replaces all references anything prepended with `$ENV_` with the environment variable equivalent.
+
+For example:
+
+    nginx.conf
+    location /path {
+      echo $ENV_PATH
+    }
+
+Would be replaced with:
+
+    nginx.conf
+    location /path {
+      echo /usr/bin:/usr/local
+    }
+
+It is up to you to make sure strings are escaped correctly, etc. The reason because the database module seems to take raw characters instead of a nginx string.
+
+
