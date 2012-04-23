@@ -50,13 +50,13 @@ I am manually updating the version of OpenResty with the build scripts found in 
     $ cd packager
     $ ./build.sh
 
-This will take a while to run, but the end result will be a tar file in the `build/` directory.
+This will take a while to run, but the end result will be a tar file in the `build/` directory. They are currently hosted on S3 with my personal account.
 
 ## Environment variables
 
-Right now Nginx and OpenResty doen't support environment variables in the config file. Heroku uses them extensively to set Database, Memcache, and other add-on credentials.
+Nginx and OpenResty don't support environment variables in the config file. Heroku uses them extensively to set Database, Memcache, and other add-on credentials.
 
-On runtime of the `web` dyno, the `nginx.conf` replaces all references anything prepended with `$ENV_` with the environment variable equivalent.
+On runtime of the `web` dyno, the `nginx.conf` replaces all references of variables prepended with `$ENV_` with the environment variable equivalent.
 
 For example:
 
@@ -72,6 +72,11 @@ Would be replaced with:
       echo /usr/bin:/usr/local
     }
 
-It is up to you to make sure strings are escaped correctly, etc. The reason because the database module seems to take raw characters instead of a nginx string.
+It is up to you to make sure strings are escaped correctly, etc. The escaping of values depends on what Nginx conf setting its for.
 
+## TODO
 
+* Support defined versions of OpenResty when creating slug.
+* If the slug already has the current version of OpenResty, don't redownload.
+* Support for more OpenResty extensions -- Drizzle, Iconv.
+* LuaRocks with slug compilation.
