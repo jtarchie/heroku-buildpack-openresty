@@ -11,7 +11,7 @@ class LanguagePack::Nginx < LanguagePack::Base
   end
 
   def name
-    "Nginx"
+    "OpenResty"
   end
 
   def default_addons
@@ -53,7 +53,7 @@ end
   private
 
   def download_openresty
-    openresty_path = "/app/openresty"
+    openresty_path = "openresty"
     topic "Installing OpenResty version #{OPENRESTY_STABLE_VERSION}"
     unless cache_load(openresty_path)
       puts "Downloading OpenResty binary"
