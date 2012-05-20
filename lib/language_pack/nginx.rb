@@ -57,6 +57,8 @@ end
     topic "Installing OpenResty version #{OPENRESTY_STABLE_VERSION}"
     unless cache_load(openresty_path)
       puts "Downloading OpenResty binary"
+      pipe "ls -asl"
+      pipe "ls -asl #{cache_base}"
       Dir.chdir(build_path) do
         run("curl #{VENDOR_URL}/openresty_nginx-#{OPENRESTY_STABLE_VERSION}.tar.gz -s -o - | tar zxf -")
         cache_store(openresty_path)
