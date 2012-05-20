@@ -54,7 +54,9 @@ end
 
   def download_openresty
     openresty_path = "/app/openresty"
-    cache_load(openresty_path) if (cache_base + openresty_path).exist?
+    topic "Checkig for OpenResty version #{OPENRESTY_STABLE_VERSION}"
+    return cache_load(openresty_path) if (cache_base + openresty_path).exist?
+    topic "Downloading OpenResty version #{OPENRESTY_STABLE_VERSION}"
     Dir.chdir(build_path) do
       run("curl #{VENDOR_URL}/openresty_nginx-#{OPENRESTY_STABLE_VERSION}.tar.gz -s -o - | tar zxf -")
       cache_store(openresty_path)
