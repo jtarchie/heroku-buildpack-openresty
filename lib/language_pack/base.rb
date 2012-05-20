@@ -195,6 +195,7 @@ private ##################################
   # @param [String] source directory
   # @param [String] destination directory
   def cache_copy(from, to)
+    puts "cache_copy #{from} -> #{to}"
     return false unless File.exist?(from)
     FileUtils.mkdir_p File.dirname(to)
     pipe("cp -a #{from}/. #{to}")
