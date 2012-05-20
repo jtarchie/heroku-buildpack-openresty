@@ -133,6 +133,7 @@ private ##################################
   # run a shell command and stream the ouput
   # @param [String] command to be run
   def pipe(command)
+    puts "> #{command}"
     output = ""
     IO.popen(command) do |io|
       until io.eof?
@@ -196,7 +197,7 @@ private ##################################
   def cache_copy(from, to)
     return false unless File.exist?(from)
     FileUtils.mkdir_p File.dirname(to)
-    system("cp -a #{from}/. #{to}")
+    pipe("cp -a #{from}/. #{to}")
   end
 
 end
