@@ -31,10 +31,8 @@ class LanguagePack::Nginx < LanguagePack::Base
     }
   end
 
-
   def compile
-    Dir.chdir(build_path)
-    run("curl #{VENDOR_URL}/openresty_nginx-#{OPENRESTY_STABLE_VERSION}.tar.gz -s -o - | tar zxf -")
+    download_openresty
     FileUtils.mkdir_p "logs"
     File.open("run.rb", "w") do |file|
       file.puts <<-APPLICATION
@@ -53,6 +51,16 @@ end
   end
 
   private
+
+  def download_openresty
+    openresty_path = "/app/openresty"
+    cache_load(openresty_path) if (cache_base + openresty_path).exist?
+    Dir.chdir(build_path) do
+      run("curl #{VENDOR_URL}/openresty_nginx-#{OPENRESTY_STABLE_VERSION}.tar.gz -s -o - | tar zxf -")
+      cache_store(openresty_path)
+    end
+  end
+
   def default_path
     "bin:/bin:/usr/local/bin:/usr/bin:/bin:/app/openresty/nginx/sbin"
   end
