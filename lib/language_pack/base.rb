@@ -181,6 +181,7 @@ private ##################################
   # @param [String] path of contents to store. it will be stored using this a relative path from the cache_base.
   # @param [Boolean] defaults to true. if set to true, the cache store directory will be cleared before writing to it.
   def cache_store(path, clear_first=true)
+    puts "cache_store #{path}"
     cache_clear(path) if clear_first
     cache_copy path, (cache_base + path)
   end
@@ -188,6 +189,7 @@ private ##################################
   # load cache contents
   # @param [String] relative path of the cache contents
   def cache_load(path)
+    puts "cache_load #{path}"
     cache_copy (cache_base + path), path
   end
 
