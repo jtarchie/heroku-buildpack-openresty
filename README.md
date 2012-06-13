@@ -77,6 +77,6 @@ It is up to you to make sure strings are escaped correctly, etc. The escaping of
 ## TODO
 
 * Support defined versions of OpenResty when creating slug.
-* If the slug already has the current version of OpenResty, don't redownload.
+* Add DATABASE_URL automatic parsing
 * Support for more OpenResty extensions -- Drizzle, Iconv.
 * LuaRocks with slug compilation.
