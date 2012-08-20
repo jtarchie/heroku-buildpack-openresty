@@ -8,7 +8,7 @@ class Provision < Vagrant::Provisioners::Base
   def provision!
     vm.ssh.execute do |ssh|
       ssh.sudo! "apt-get update"
-      ssh.sudo! "apt-get install -y libpq-dev libreadline-dev libpcre3-dev libssl-dev perl patch"
+      ssh.sudo! "apt-get install -y build-essential libpq-dev libreadline-dev libpcre3-dev libssl-dev perl patch"
       ssh.sudo! [
         "cd /tmp",
         "mkdir /app",
