@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-reqruie 'uri'
+require 'uri'
 
 if ENV['DATABASE_URL']
   database_url = URI.parse(ENV['DATABASE_URL'])
