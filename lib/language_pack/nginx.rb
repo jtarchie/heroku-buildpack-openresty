@@ -27,30 +27,28 @@ class LanguagePack::Nginx < LanguagePack::Base
 
   def default_process_types
     {
-      "web" => 'ruby run.rb'
+      "web" => 'ruby runner.rb'
     }
   end
 
   def compile
     download_openresty
+    copy_runner
     FileUtils.mkdir_p "logs"
-    File.open("run.rb", "w") do |file|
-      file.puts <<-APPLICATION
-#!/usr/bin/env ruby
-
-conf_file = File.read("nginx.conf")
-conf_file.gsub!(/\\$ENV_(\\w+)/) do
-  ENV[$1]
-end
-File.open(".env_nginx.conf","w") do |file|
-  file.puts conf_file
-end
-`nginx -c \\`pwd\\`/.env_nginx.conf -g "daemon off;"`
-      APPLICATION
-    end
+    FileUtils.mkdir_p "tmp"
   end
 
   private
+
+  def copy_runner
+    runner_path = "scripts/runner.rb"
+    unless cache_load(runner_path)
+      Dir.chdir(build_path) do
+        run("cp #{File.join(File.dirname(__FILE__),"..","scripts","runner.rb")}" )
+        cache_load(runner_path)
+      end
+    end
+  end
 
   def download_openresty
     openresty_path = "openresty"
