@@ -41,10 +41,10 @@ class LanguagePack::Nginx < LanguagePack::Base
   private
 
   def copy_runner
-    runner_path = "scripts/runner.rb"
+    runner_path = "runner.rb"
     unless cache_load(runner_path)
       Dir.chdir(build_path) do
-        run("cp #{File.join(File.dirname(__FILE__),"..","scripts","runner.rb")}" )
+        run("cp #{File.join(File.dirname(__FILE__),"..","scripts","runner.rb")} runner.rb")
         cache_load(runner_path)
       end
     end
