@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+reqruie 'uri'
+
 if ENV['DATABASE_URL']
   database_url = URI.parse(ENV['DATABASE_URL'])
   ENV['DB_HOST'] = database_url.host
