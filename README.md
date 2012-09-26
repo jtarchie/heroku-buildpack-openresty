@@ -24,7 +24,6 @@ Your application is must have a `nginx.conf` file in the root of the application
     -----> Heroku receiving push
     -----> Fetching custom buildpack... done
     -----> Nginx app detected
-    logs
     -----> Discovering process types
            Procfile declares types -> (none)
            Default types for Nginx -> web
@@ -37,9 +36,17 @@ Your application is must have a `nginx.conf` file in the root of the application
 
     $ heroku open
 
+## Deployment Notes
+
+If include a `Procfile`, please keep in mind that a lot of magic happens for the `web` dyno. Keep this line in `Procfile` to support all the useful features provided.
+
+    web: ruby runner.rb
+
+Since nginx doesn't support passing a port as a command line argument, we have to do some preprocessing to use it in the `nginx.conf`. Wherever you define your `listen` directive use $ENV_PORT for the port number.
+
 ## Example
 
-Please see the example [here](https://github.com/jtarchie/openresty-example). And follow the [Usage](#Usage) to deploy it.
+Please see the example [here](https://github.com/jtarchie/openresty-example). And follow the [Usage](#Usage) for deployment.
 
 ## Nginx compilation
 
@@ -51,6 +58,14 @@ I am manually updating the version of OpenResty with the build scripts found in 
     $ ./build.sh
 
 This will take a while to run, but the end result will be a tar file in the `build/` directory. They are currently hosted on S3 with my personal account.
+
+This version of OpenResty is configured with the following options:
+
+    ./configure --with-luajit --prefix=/app/openresty --with-http_postgres_module
+    
+LuaJIT because it is fast. Postgres because it is the database of choice for Heroku.
+
+Please create an issue if you would like more options to be compiled with OpenResty for this buildpack.
 
 ## Environment variables
 
@@ -74,7 +89,7 @@ Would be replaced with:
 
 It is up to you to make sure strings are escaped correctly, etc. The escaping of values depends on what Nginx conf setting its for.
 
-###DATABASE_URL
+### DATABASE_URL
 
 If any DATABASE_URL exists in the environment variables, it will be parsed down into DB_HOST, DB_NAME, DB_USERNAME, and DB_PASSWORD, so they can be used within the `nginx.conf`.
 
@@ -83,3 +98,4 @@ If any DATABASE_URL exists in the environment variables, it will be parsed down 
 * Support defined versions of OpenResty when creating slug.
 * Support for more OpenResty extensions -- Drizzle, Iconv.
 * LuaRocks with slug compilation.
+* Make it easier to use locally, especially with environment variables.
