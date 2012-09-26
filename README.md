@@ -39,7 +39,7 @@ Your application is must have a `nginx.conf` file in the root of the application
 
 ## Example
 
-Please see the example [here](https://github.com/jtarchie/openresty-example).
+Please see the example [here](https://github.com/jtarchie/openresty-example). And follow the [Usage](#Usage) to deploy it.
 
 ## Nginx compilation
 
@@ -74,9 +74,12 @@ Would be replaced with:
 
 It is up to you to make sure strings are escaped correctly, etc. The escaping of values depends on what Nginx conf setting its for.
 
+###DATABASE_URL
+
+If any DATABASE_URL exists in the environment variables, it will be parsed down into DB_HOST, DB_NAME, DB_USERNAME, and DB_PASSWORD, so they can be used within the `nginx.conf`.
+
 ## TODO
 
 * Support defined versions of OpenResty when creating slug.
-* Add DATABASE_URL automatic parsing
 * Support for more OpenResty extensions -- Drizzle, Iconv.
 * LuaRocks with slug compilation.
