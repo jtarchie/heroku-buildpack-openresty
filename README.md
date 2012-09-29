@@ -55,6 +55,7 @@ It is actually required to build nginx ahead of time for the Heroku environment.
 I am manually updating the version of OpenResty with the build scripts found in `packager/` directory. It requires to have the vagrant gem install and its dependencies.
 
     $ cd packager
+    $ bundle
     $ ./build.sh
 
 This will take a while to run, but the end result will be a tar file in the `build/` directory. They are currently hosted on S3 with my personal account.
