@@ -52,14 +52,18 @@ class LanguagePack::Nginx < LanguagePack::Base
 
   def download_openresty
     openresty_path = "openresty"
-    topic "Installing OpenResty version #{OPENRESTY_STABLE_VERSION}"
+    topic "Installing OpenResty version #{openresty_version}"
     unless cache_load(openresty_path)
       puts "Downloading OpenResty binary"
       Dir.chdir(build_path) do
-        run("curl #{VENDOR_URL}/openresty_nginx-#{OPENRESTY_STABLE_VERSION}.tar.gz -s -o - | tar zxf -")
+        run("curl #{VENDOR_URL}/openresty_nginx-#{openresty_version}.tar.gz -s -o - | tar zxf -")
         cache_store(openresty_path)
       end
     end
+  end
+
+  def openresty_version
+    ENV['OPENRESTY_VERSION'] || OPENRESTY_STABLE_VERSION
   end
 
   def default_path

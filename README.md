@@ -36,6 +36,18 @@ Your application is must have a `nginx.conf` file in the root of the application
 
     $ heroku open
 
+### Supported OpenResty Versions
+
+You can specify which version of OpenResty to use when using the buildpack. You can use older stable versions if you need to.
+
+    $ heroku config:add OPENRESTY_VERSION=x.x.x.x
+
+* 1.0.10.24
+* 1.0.10.48
+* 1.0.11.28
+* 1.0.15.10
+* 1.2.1.14
+
 ## Deployment Notes
 
 If include a `Procfile`, please keep in mind that a lot of magic happens for the `web` dyno. Keep this line in `Procfile` to support all the useful features provided.
@@ -96,7 +108,6 @@ If any DATABASE_URL exists in the environment variables, it will be parsed down 
 
 ## TODO
 
-* Support defined versions of OpenResty when creating slug.
 * Support for more OpenResty extensions -- Drizzle, Iconv.
 * LuaRocks with slug compilation.
 * Make it easier to use locally, especially with environment variables.
