@@ -52,7 +52,7 @@ You can specify which version of OpenResty to use when using the buildpack. You 
 
 If include a `Procfile`, please keep in mind that a lot of magic happens for the `web` dyno. Keep this line in `Procfile` to support all the useful features provided.
 
-    web: erb nginx.conf > .compiled_nginx.conf && touch logs/access.log logs/error.log && (tail -f -n 0 logs/*.log &) && nginx -p . -g "daemon off;" -c `pwd`/.compiled_nginx.conf'
+    web: erb nginx.conf > .compiled_nginx.conf && touch logs/access.log logs/error.log && (tail -f -n 0 logs/*.log &) && nginx -p . -g "daemon off;" -c `pwd`/.compiled_nginx.conf
 
 Since nginx doesn't support passing a port as a command line argument, we have to do some preprocessing to use it in the `nginx.conf`. Wherever you define your `listen` directive use `<%= ENV['PORT'] %>` for the port number.
 
