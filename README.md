@@ -58,7 +58,7 @@ Since nginx doesn't support passing a port as a command line argument, we have t
 
 ## Example
 
-Please see the example [here](https://github.com/jtarchie/openresty-example). And follow the [Usage](#Usage) for deployment.
+Please see the example [here](https://github.com/jtarchie/openresty-example). And follow the [Usage](#usage) for deployment.
 
 ## Nginx compilation
 
