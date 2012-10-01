@@ -132,6 +132,12 @@ The following code parses the DATABASE_URL into useful environment variables for
 		end
 	%>
 
+## Older versions of buildpack
+
+There have been significant changes to the buildpack and how it supports environment variables and preprocesses the nginx.conf. If you would like to use the older version of it please use the following URL for the BUILDPACK_URL on heroku.
+
+    heroku config:add BUILDPACK_URL=https://github.com/jtarchie/heroku-buildpack-openresty.git#v.1.0.0
+
 ## TODO
 
 * Support for more OpenResty extensions -- Drizzle, Iconv.
