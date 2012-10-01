@@ -27,7 +27,7 @@ class LanguagePack::Nginx < LanguagePack::Base
 
   def default_process_types
     {
-      "web" => 'erb nginx.conf > nginx.conf && touch logs/access.log logs/error.log && (tail -f -n 0 logs/*.log &) && nginx -p . -g "daemon off;"'
+      "web" => 'erb nginx.conf > nginx.conf && touch logs/access.log logs/error.log && (tail -f -n 0 logs/*.log &) && nginx -p . -g "daemon off;" -c `pwd`/nginx.conf'
     }
   end
 
