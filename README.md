@@ -52,9 +52,9 @@ You can specify which version of OpenResty to use when using the buildpack. You 
 
 If include a `Procfile`, please keep in mind that a lot of magic happens for the `web` dyno. Keep this line in `Procfile` to support all the useful features provided.
 
-    web: ruby runner.rb
+    web: erb nginx.conf > .compiled_nginx.conf && touch logs/access.log logs/error.log && (tail -f -n 0 logs/*.log &) && nginx -p . -g "daemon off;" -c `pwd`/.compiled_nginx.conf'
 
-Since nginx doesn't support passing a port as a command line argument, we have to do some preprocessing to use it in the `nginx.conf`. Wherever you define your `listen` directive use $ENV_PORT for the port number.
+Since nginx doesn't support passing a port as a command line argument, we have to do some preprocessing to use it in the `nginx.conf`. Wherever you define your `listen` directive use `<%= ENV['PORT'] %>` for the port number.
 
 ## Example
 
@@ -80,22 +80,35 @@ LuaJIT because it is fast. Postgres because it is the database of choice for Her
 
 Please create an issue if you would like more options to be compiled with OpenResty for this buildpack.
 
-## Environment variables
+## nginx.conf on load
+
+Some magic happens to the `nginx.conf` when the dyno loads. It get evaluated as [ERB](http://ruby-doc.org/stdlib-1.9.3/libdoc/erb/rdoc/ERB.html), so that dynamic evaluation can happen for the port, other environment variable, etc. __WARNING__ This is not backwards compatible with the old way of handling $ENV variables.
+
+### Requiring PORT
+
+Heroku sets an environment variable `PORT` to pass along to the server. Since `nginx.conf` does not normally evaluate with environment variables a _workaround_ was added to support `nginx.conf` preprocessing for environment variables.
+
+To have a port defined in file, use the following:
+
+    server {
+      listen <%= ENV['PORT'] %>;
+      # reset of server declaration
+    }
+
+### Environment variables
 
 Nginx and OpenResty don't support environment variables in the config file. Heroku uses them extensively to set Database, Memcache, and other add-on credentials.
 
-On runtime of the `web` dyno, the `nginx.conf` replaces all references of variables prepended with `$ENV_` with the environment variable equivalent.
+On runtime of the `web` dyno, the `nginx.conf` can
 
-For example:
+For example, in a `nginx.conf` file far away:
 
-    nginx.conf
     location /path {
-      echo $ENV_PATH
+      echo <%= $ENV['PATH'] %>
     }
 
 Would be replaced with:
 
-    nginx.conf
     location /path {
       echo /usr/bin:/usr/local
     }
@@ -104,7 +117,20 @@ It is up to you to make sure strings are escaped correctly, etc. The escaping of
 
 ### DATABASE_URL
 
-If any DATABASE_URL exists in the environment variables, it will be parsed down into DB_HOST, DB_NAME, DB_USERNAME, and DB_PASSWORD, so they can be used within the `nginx.conf`.
+If any DATABASE_URL exists in the environment variables, you can parse it down to useful values to be used in the `upstream`.
+
+The following code parses the DATABASE_URL into useful environment variables for host, username, password, and database name:
+
+	<%
+		require "uri"
+		if ENV['DATABASE_URL']
+		  database_url = URI.parse(ENV['DATABASE_URL'])
+		  ENV['DB_HOST'] = database_url.host
+		  ENV['DB_NAME'] = database_url.path.sub(/^\//,'')
+		  ENV['DB_USERNAME'] = database_url.user
+		  ENV['DB_PASSWORD'] = database_url.password
+		end
+	%>
 
 ## TODO
 
