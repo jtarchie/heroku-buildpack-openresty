@@ -13,4 +13,4 @@ end
 modified_filename = "nginx-#{Time.now.to_i}.conf"
 conf_file = File.read("nginx.conf").gsub!(/\$ENV_(\w+)/) { ENV[$1] }
 File.open(modified_filename, "w") {|f| f.puts conf_file }
-exec %Q{touch logs/access.log logs/error.log && (tail -f -n 0 logs/access.log &) && (tail -f -n 0 logs/error.log) && nginx -c \`pwd\`/#{modified_filename} -g "daemon off;"}
+exec %Q{touch logs/access.log logs/error.log && (tail -f -n 0 logs/access.log &) && (tail -f -n 0 logs/error.log &) && nginx -c \`pwd\`/#{modified_filename} -g "daemon off;"}
