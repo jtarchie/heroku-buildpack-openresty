@@ -4,7 +4,7 @@ require "language_pack"
 require "language_pack/base"
 
 class LanguagePack::Nginx < LanguagePack::Base
-  OPENRESTY_STABLE_VERSION = "1.2.1.14"
+  OPENRESTY_STABLE_VERSION = "1.2.3.8"
 
   def self.use?
     File.exist?("nginx.conf")

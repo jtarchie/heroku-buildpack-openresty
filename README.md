@@ -47,6 +47,7 @@ You can specify which version of OpenResty to use when using the buildpack. You 
 * 1.0.11.28
 * 1.0.15.10
 * 1.2.1.14
+* 1.2.3.8
 
 ## Deployment Notes
 
